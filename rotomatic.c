@@ -5,6 +5,8 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include "findpowermate.h"
+#include <libnotify/notify.h>
+#include <stdlib.h>
 
 int abs_offset = 0;
 
@@ -23,8 +25,19 @@ void process_event(struct input_event *ev)
     if(ev->code != REL_DIAL)
       fprintf(stderr, "Warning: unexpected rotation event; ev->code = 0x%04x\n", ev->code);
     else{
+      int difference = (int)ev->value;
       abs_offset += (int)ev->value;
-      printf("Button was rotated %d units; Offset from start is now %d units\n", (int)ev->value, abs_offset);
+      if (difference > 0) {
+          NotifyNotification * ico =
+              notify_notification_new(" ", " ", "/usr/share/icons/powermate/volume-up.png");
+          notify_notification_show (ico, NULL);
+          system("amixer set Master 1+");
+      } else {
+          NotifyNotification * ico =
+              notify_notification_new(" ", " ", "/usr/share/icons/powermate/volume-down.png");
+          notify_notification_show (ico, NULL);
+          system("amixer set Master 1-");
+      }
     }
     break;
   case EV_KEY:
@@ -74,6 +87,7 @@ int main(int argc, char *argv[])
     return 1;
   }
 
+  notify_init("powermate");
   watch_powermate(powermate);
 
   close(powermate);
