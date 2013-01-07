@@ -22,7 +22,6 @@ int open_powermate(const char *dev, int mode)
   char name[255];
 
   if(fd < 0){
-    fprintf(stderr, "Unable to open \"%s\": %s\n", dev, strerror(errno));
     return -1;
   }
 
@@ -52,6 +51,7 @@ int find_powermate(int mode)
     if(r >= 0)
       return r;
   }
+  fprintf(stderr, "Unable to locate or open a PowerMate");
 
   return -1;
 }

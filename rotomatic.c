@@ -31,12 +31,14 @@ void process_event(struct input_event *ev)
           NotifyNotification * ico =
               notify_notification_new(" ", " ", "/usr/share/icons/powermate/volume-up.png");
           notify_notification_show (ico, NULL);
-          system("amixer set Master 1+");
+          FILE *output = popen("amixer set Master 1+", "r");
+          pclose(output);
       } else {
           NotifyNotification * ico =
               notify_notification_new(" ", " ", "/usr/share/icons/powermate/volume-down.png");
           notify_notification_show (ico, NULL);
-          system("amixer set Master 1-");
+          FILE *output = popen("amixer set Master 1-", "r");
+          pclose(output);
       }
     }
     break;
@@ -46,8 +48,6 @@ void process_event(struct input_event *ev)
     else
       printf("Button was %s\n", ev->value? "pressed":"released");
     break;
-  default:
-    fprintf(stderr, "Warning: unexpected event type; ev->type = 0x%04x\n", ev->type);
   }
 
   fflush(stdout);
