@@ -2,7 +2,7 @@
 pkgname=rotomatic
 pkgver=20130108
 pkgrel=1
-pkgdesc="control audio and music with a griffin rotomatic"
+pkgdesc="control audio and music with a griffin powermate"
 url="http://github.com/nospampleasemam/rotomatic"
 arch=('any')
 license=('GPL')
