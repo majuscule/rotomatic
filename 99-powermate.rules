@@ -1,0 +1,2 @@
+KERNEL=="event*", NAME="Griffin PowerMate", MODE="660", GROUP="input"
+KERNEL=="event*", NAME="Griffin SoundKnob", MODE="660", GROUP="input"
