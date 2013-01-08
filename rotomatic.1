@@ -1,0 +1,41 @@
+.TH rotomatic 1 "JANUARY 2013" Linux "User Manual"
+.SH NAME
+rotomatic \- control audio and music with a griffin powermate
+.SH SYNOPSIS
+rotomatic binds a Griffin Powermate to ALSA volume control and MPD/Pianobar (or any music player with a console API).
+.SH DESCRIPTION
+Controls volume with a left or right turn.
+Skips to the next MPD/Pianobar music track with a press and twist.
+Toggles system mute with a long press (> 1 second).
+.SH NOTES
+This program needs read and write access to /dev/input/event*. It acquires this with a udev rule matching all /dev/input/event* files and assigning them to group input with 660 permissions. To use the program you must be a member of group input. Use `sudo gpasswd -a $(whoami) input` to add yourself to this group, and cycle your login for this to take affect.
+.SH EXAMPLE
+With X11 running: $ rotomatic & disown
+.SH FILES
+.I /usr/bin/rotomatic
+.RS
+This executable file controls your powermate.
+.RE
+
+.I /usr/bin/music-{previous,next,toggle}
+.RS
+These shell scripts are called by rotomatic when the powermate is used. Edit these files to add support for additional music players.
+.RE
+
+.I /usr/bin/pianobar-{next,toggle}
+.RS
+These shell scripts control pianobar through the standard ctl fifo. (see pianobar documentation under 'REMOTE CONTROL')
+.RE
+
+.I /lib/udev/rules.d/99-rotomatic.rules
+.RS
+This udev rule sets all /dev/input/event* files to group input and 660 permissions.
+.RE
+
+.I /usr/share/man/man1/rotomatic.1.gz
+.RS
+This man page.
+.RE
+
+.SH AUTHORS
+Will <will@sowerbutts.com>, Dylan Lloyd <dylan@dylansserver.com>
