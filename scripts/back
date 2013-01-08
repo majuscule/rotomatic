@@ -1,0 +1,8 @@
+#!/bin/sh
+
+export DISPLAY=:1
+if [ -n "$(pgrep mpd)" ]
+then
+  notify-send -i /usr/share/icons/powermate/skip-backward.png "skip backward "
+  mpc prev
+fi
