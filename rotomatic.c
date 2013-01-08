@@ -28,9 +28,10 @@ void process_event(struct input_event *ev)
   case EV_REL:
     if(ev->code != REL_DIAL)
       fprintf(stderr, "Warning: unexpected rotation event; ev->code = 0x%04x\n", ev->code);
-    else{
+    else {
       int difference = (int)ev->value;
-      abs_offset += (int)ev->value;
+      abs_offset += difference;
+      if (button_down) break;
       if (difference > 0) {
           NotifyNotification * ico =
               notify_notification_new(" ", " ", "/usr/share/icons/powermate/volume-up.png");
@@ -50,11 +51,16 @@ void process_event(struct input_event *ev)
     if(ev->code != BTN_0)
       fprintf(stderr, "Warning: unexpected key event; ev->code = 0x%04x\n", ev->code);
     else {
+      muted = !muted;
       if (ev->value) {
           button_down = time(NULL);
+          abs_offset = 0;
       } else {
-        if (time(NULL) - button_down > 1) {
-          muted = !muted;
+        if (abs_offset > 2) {
+          system("/usr/bin/next");
+        } else if (abs_offset < -2) {
+          system("/usr/bin/back");
+        } else if (time(NULL) - button_down > 1) {
           if (muted) {
             NotifyNotification * ico =
                 notify_notification_new(" ", " ", "/usr/share/icons/powermate/volume-mute.png");
@@ -66,8 +72,8 @@ void process_event(struct input_event *ev)
           }
           FILE *output = popen("amixer set Master toggle", "r");
           pclose(output);
-        }
-        system("/usr/bin/music-toggle");
+        } else { system("/usr/bin/music-toggle"); }
+        button_down = 0;
       }
     }
     break;
