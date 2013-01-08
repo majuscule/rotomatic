@@ -7,8 +7,12 @@
 #include "findpowermate.h"
 #include <libnotify/notify.h>
 #include <stdlib.h>
+#include <sys/time.h>
 
 int abs_offset = 0;
+time_t button_down;
+time_t time_pressed;
+int muted = 0;
 
 void process_event(struct input_event *ev)
 {
@@ -45,8 +49,27 @@ void process_event(struct input_event *ev)
   case EV_KEY:
     if(ev->code != BTN_0)
       fprintf(stderr, "Warning: unexpected key event; ev->code = 0x%04x\n", ev->code);
-    else
-      printf("Button was %s\n", ev->value? "pressed":"released");
+    else {
+      if (ev->value) {
+          button_down = time(NULL);
+      } else {
+        if (time(NULL) - button_down > 1) {
+          muted = !muted;
+          if (muted) {
+            NotifyNotification * ico =
+                notify_notification_new(" ", " ", "/usr/share/icons/powermate/volume-mute.png");
+            notify_notification_show (ico, NULL);
+          } else {
+            NotifyNotification * ico =
+                notify_notification_new(" ", " ", "/usr/share/icons/powermate/volume-on.png");
+            notify_notification_show (ico, NULL);
+          }
+          FILE *output = popen("amixer set Master toggle", "r");
+          pclose(output);
+        }
+        system("/usr/bin/music-toggle");
+      }
+    }
     break;
   }
 
