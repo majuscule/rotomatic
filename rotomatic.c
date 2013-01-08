@@ -57,9 +57,9 @@ void process_event(struct input_event *ev)
           abs_offset = 0;
       } else {
         if (abs_offset > 2) {
-          system("/usr/bin/next");
+          system("/usr/bin/music-next");
         } else if (abs_offset < -2) {
-          system("/usr/bin/back");
+          system("/usr/bin/music-previous");
         } else if (time(NULL) - button_down > 1) {
           if (muted) {
             NotifyNotification * ico =
