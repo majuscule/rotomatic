@@ -8,7 +8,7 @@ arch=('any')
 license=('GPL')
 install="$pkgname.install"
 makedepends=('gcc')
-depends=('libnotify')
+depends=('libnotify' 'alsa-utils')
 
 _gitroot=git://github.com/nospampleasemam/rotomatic.git
 _gitname=rotomatic
