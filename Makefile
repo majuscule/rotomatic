@@ -9,4 +9,4 @@ clean:
 	rm -f *.o *~ rotomatic
 
 %.o:    %.c
-	$(CC) $(CFLAGS) -O2 -Wall -c $< -o $@
+	$(CC) $(CFLAGS) -O2 -Wall -llibboost_program_options.so.1.53.0 -c $< -o $@

@@ -36,13 +36,13 @@ void process_event(struct input_event *ev)
           NotifyNotification * ico =
               notify_notification_new(" ", " ", "/usr/share/icons/powermate/volume-up.png");
           notify_notification_show (ico, NULL);
-          FILE *output = popen("amixer set Master 1+", "r");
+          FILE *output = popen("pamixer --increase 1", "r");
           pclose(output);
       } else {
           NotifyNotification * ico =
               notify_notification_new(" ", " ", "/usr/share/icons/powermate/volume-down.png");
           notify_notification_show (ico, NULL);
-          FILE *output = popen("amixer set Master 1-", "r");
+          FILE *output = popen("pamixer --decrease 1", "r");
           pclose(output);
       }
     }
@@ -70,7 +70,7 @@ void process_event(struct input_event *ev)
                 notify_notification_new(" ", " ", "/usr/share/icons/powermate/volume-on.png");
             notify_notification_show (ico, NULL);
           }
-          FILE *output = popen("amixer set Master toggle", "r");
+          FILE *output = popen("pamixer --toggle-mute", "r");
           pclose(output);
         } else { system("/usr/bin/music-toggle"); }
         button_down = 0;

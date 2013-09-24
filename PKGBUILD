@@ -1,6 +1,6 @@
 # Maintainer: Dylan Lloyd <dylan@dylansserver.com>
 pkgname=rotomatic
-pkgver=20130108
+pkgver=20130401
 pkgrel=1
 pkgdesc="control audio and music with a griffin powermate"
 url="http://github.com/nospampleasemam/rotomatic"
