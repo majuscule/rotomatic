@@ -2,7 +2,6 @@
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>
-#include <unistd.h>
 #include <fcntl.h>
 #include "findpowermate.h"
 #include <libnotify/notify.h>
